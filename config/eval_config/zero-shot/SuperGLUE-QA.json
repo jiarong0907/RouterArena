@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "SuperGLUE-QA",
+        "eval_metrics": [
+            "superglue_exact_match"
+        ],
+        "setting": "zero-shot",
+        "prompt": "You are a reading comprehension assistant. Your task is to answer a question based on the provided context.\n\nFirst, provide your final judgment: `1` for correct, `0` for incorrect.\n\nContext: {Context}\n\nQuestion: {Question}\n\nProvide the correct letter choice in \\boxed{{X}}, where X is the correct choice. "
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "pipeline_params": {
+        "router_name": "RouterDC",
+        "models": {
+            "mistralai/mistral-7b-instruct": 0.08101,
+            "meta-math/MetaMath-Mistral-7B": 0.08274,
+            "itpossible/Chinese-Mistral-7B-v0.1": 0.4636,
+            "HuggingFaceH4/zephyr-7b-beta": 0.1244,
+            "cognitivecomputations/dolphin-2.6-mistral-7b": 0.08479,
+            "meta-llama/llama-3-8b-instruct": 0.03498,
+            "cognitivecomputations/dolphin-2.9-llama3-8b": 0.4584
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "SuperGLUE-RC",
+        "eval_metrics": [
+            "superglue_exact_match"
+        ],
+        "setting": "zero-shot",
+        "prompt": "Your task is to evaluate if the \"Provided Answer\" is a correct response to the \"Question\" based on the \"Paragraph\".\\n- Output 1 if the answer is correct.- Output 0 if the answer is incorrect.\n\nQuestion: {Question}\n\nProvided Answer: {Answer}\n\n Is the provided answer correct? Provide the correct letter choice in \\boxed{{X}}, where X is the correct choice. "
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

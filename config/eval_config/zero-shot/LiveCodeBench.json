@@ -1,0 +1,19 @@
+{
+    "eval_params": {
+        "dataset": "LiveCodeBench",
+        "eval_metrics": [
+            "code_accuracy"
+        ],
+        "setting": "zero-shot",
+        "is_stdin_prompt":"Generate an executable Python function generated from the given prompt. The function should take stdin as input and print the output. Simply call the function after the definition. Question:\n{Question}",
+        "not_is_stdin_prompt":  "Generate an executable Python function generated from the given prompt. Return the function body without invoking it at the final solution. Question:\n{Question}"
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

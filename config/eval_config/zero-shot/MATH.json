@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "MATH",
+        "eval_metrics": [
+            "math_metric"
+        ],
+        "setting": "zero-shot",
+        "prompt": "Please solve the following mathematical problem and provide the final answer.\n\nContext: {Context}\n\nQuestion: {Question}\n\nProvide your final answer in \\boxed{{{{}}}} format, where the content inside the braces is the exact mathematical expression or number. For example: \\boxed{{{{42}}}}. Keep your explanation clear, concise, and within 3 sentences."
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

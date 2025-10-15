@@ -1,0 +1,5 @@
+{
+    "pipeline_params": {
+        "router_name": "azure"
+    }
+}

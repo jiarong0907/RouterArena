@@ -1,0 +1,7 @@
+{
+    "pipeline_params": {
+        "router_name": "gpt5",
+        "max_output_tokens": 4096,
+        "max_response_tokens": 1024
+    }
+}

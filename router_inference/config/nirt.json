@@ -1,0 +1,27 @@
+{
+    "pipeline_params": {
+        "router_name": "nirt_bert",
+        "models": {
+            "glm-4-air": 0.0466,
+            "glm-4-flash": 0.004399,
+            "glm-4-plus": 0.2391,
+            "gpt-4o": 1.436,
+            "gpt-4o-mini": 0.08758,
+            "gpt_4o_mini_cot": null,
+            "deepseek_coder": null,
+            "deepseek_deepseek-chat": 0.16,
+            "Qwen_Qwen2.5-32B-Instruct-GPTQ-Int4": 0.1732,
+            "Qwen_Qwen2.5-7B-Instruct": 0.03312,
+            "Qwen_Qwen2.5-72B-Instruct": 0.388,
+            "Qwen_QwQ-32B": 2.074,
+            "Qwen_Qwen2.5-Math-7B-Instruct": 0.2154,
+            "llama-3-1-8b-instruct": 0.07468,
+            "meta-llama_Meta-Llama-3.1-70B-Instruct-Turbo": 0.3603,
+            "llama-3-1-405b-instruct": 0.8469,
+            "mistralai_Mixtral-8x7B-Instruct-v0.1": 0.2262,
+            "mistralai_Mistral-7B-Instruct-v0.2": 0.0783,
+            "mistralai_Ministral-8B-Instruct-2410": 0.08437,
+            "google_gemini-flash-1.5": 0.03915
+        }
+    }
+}

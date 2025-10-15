@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "SuperGLUE-Wic",
+        "eval_metrics": [
+            "superglue_exact_match"
+        ],
+        "setting": "zero-shot",
+        "prompt": "Consider the word \"{Context}\" in the two sentences below. Does the word have the same meaning in both sentences? Answer with only \"Yes\" or \"No\".\n\n{Question}\n\nProvide the correct letter choice in \\boxed{{X}}, where X is the correct choice. "
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

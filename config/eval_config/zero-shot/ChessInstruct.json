@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "ChessInstruct",
+        "eval_metrics": [
+            "chess_accuracy"
+        ],
+        "setting": "zero-shot",
+        "prompt": "You are given a question about chess moves. Analyze the context carefully and provide the correct move.\n\nContext:\n{Context}\n\nQuestion:\n{Question}\n\nInstructions:\n- State the correct chess move clearly.\n- Format your final answer as \\boxed{{X}}, where X is the move in standard coordinate notation (e.g., a2a3).\n- Keep your explanation or reasoning within 2–3 sentences."
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

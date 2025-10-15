@@ -1,0 +1,18 @@
+{
+    "eval_params": {
+        "dataset": "SuperGLUE-Entailment",
+        "eval_metrics": [
+            "superglue_exact_match"
+        ],
+        "setting": "zero-shot",
+        "prompt": "You are a Natural Language Inference expert. Analyze the given \"Premise\" and \"Hypothesis\".\n\nYou must determine if the Premise entails the Hypothesis. First, explain your reasoning in one or two sentences on why the Hypothesis can or cannot be inferred from the Premise. Then, provide your final judgment: `0.0` for entailment, `1.0` for no entailment.\n\nQuestion: {Question}\n\nProvide the correct letter choice in \\boxed{{X}}, where X is the correct choice. "
+    },
+    "management": {
+        "sub_dir": {
+            "input_config": "input_config/",
+            "raw_results": "raw_results.json",
+            "result_vis": "result_vis.png",
+            "output_config": "output_config.json"
+        }
+    }
+}

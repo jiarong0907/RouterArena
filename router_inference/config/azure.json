@@ -1,0 +1,16 @@
+{
+    "pipeline_params": {
+        "router_name": "azure",
+        "models": {
+            "gpt-5": 14.114,
+            "gpt-5-chat-latest": 14.114,
+            "gpt-5-mini-2025-08-07": 1.484,
+            "gpt-5-nano-2025-08-07": 0.614,
+            "o4-mini-2025-04-16": 3.237,
+            "gpt-4.1": 1.184,
+            "gpt-4.1-mini-2025-04-14": 0.263,
+            "gpt-4.1-nano": 0.058
+        }
+
+    }
+}

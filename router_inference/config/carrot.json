@@ -1,0 +1,20 @@
+{
+    "pipeline_params": {
+        "router_name": "carrotrouter",
+        "models": {
+            "anthropic_claude-3.5-sonnet": 2.677,
+            "aws-titan-text-premier-v1": null,
+            "gpt-4o": 1.436,
+            "gpt-4o-mini": 0.08758,
+            "ibm-granite_granite-3-2b-instruct": 0.07207,
+            "ibm-granite_granite-3-8b-instruct": 0.08668,
+            "meta-llama_Meta-Llama-3.1-70B-Instruct-Turbo": 0.3603,
+            "llama-3-1-8b-instruct": 0.07468,
+            "llama-3-2-1b-instruct": 0.03576,
+            "llama-3-2-3b-instruct": 0.05053,
+            "llama-3-3-70b-instruct": 0.2494,
+            "mistralai_mixtral-8x7b-instruct": 0.2262,
+            "llama-3-1-405b-instruct": 0.8469
+        }
+    }
+}
