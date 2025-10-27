@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright contributors to the RouterArena project
+# SPDX-License-Identifier: Apache-2.0
+
 import re
 import regex
 from math import isclose
@@ -6,7 +9,6 @@ from latex2sympy2 import latex2sympy
 from sympy import N, simplify
 from sympy.parsing.latex import parse_latex
 from sympy.parsing.sympy_parser import parse_expr
-from word2number import w2n
 
 
 def choice_answer_clean(pred: str):
