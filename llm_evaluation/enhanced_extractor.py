@@ -79,7 +79,7 @@ class EnhancedAnswerExtractor:
             return False
         return bool(re.search(r"\\boxed\{", text))
 
-    def extract_boxed_answer(self, text: str, dataset: str = None) -> str:
+    def extract_boxed_answer(self, text: str, dataset: Optional[str] = None) -> str:
         """
         Enhanced version of extract_boxed_answer that handles multiple patterns.
 
@@ -221,7 +221,7 @@ class EnhancedAnswerExtractor:
 
         return None
 
-    def _extract_enhanced_answer(self, text: str, dataset: str = None) -> Optional[str]:
+    def _extract_enhanced_answer(self, text: str, dataset: Optional[str] = None) -> Optional[str]:
         """Extract answer using enhanced patterns"""
         # Special handling for LiveCodeBench
         if dataset == "LiveCodeBench":
@@ -430,7 +430,7 @@ enhanced_extractor = EnhancedAnswerExtractor()
 
 
 # Drop-in replacement functions that maintain compatibility
-def extract_boxed_answer(text: str, dataset: str = None) -> str:
+def extract_boxed_answer(text: str, dataset: Optional[str] = None) -> str:
     """
     Enhanced extract_boxed_answer function that automatically uses improved extraction
     for models with low \boxed{} usage.

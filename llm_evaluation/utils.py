@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import json
-import pandas as pd
-from datasets import load_from_disk, load_dataset
+import pandas as pd  # type: ignore[import-untyped]
+from datasets import load_from_disk, load_dataset  # type: ignore[import-untyped]
 
 
 def escape_format_braces(text):

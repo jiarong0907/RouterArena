@@ -9,7 +9,7 @@ import pickle
 import zlib
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from datasets import load_dataset
+from datasets import load_dataset  # type: ignore[import-untyped]
 
 save_dir = "./dataset/"
 

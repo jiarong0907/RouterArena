@@ -18,7 +18,7 @@ import argparse
 import glob
 from typing import Dict, List, Any, Optional
 import sys
-from tqdm import tqdm
+from tqdm import tqdm  # type: ignore[import-untyped]
 
 # Add the current directory to Python path to import eval modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -31,6 +31,7 @@ from eval_reasoning import get_scorers_for_dataset
 try:
     from universal_model_names import ModelNameManager
 
+    model_name_manager: Optional[ModelNameManager]
     model_name_manager = ModelNameManager()
 except ImportError:
     print("Warning: Could not import ModelNameManager. Model name validation disabled.")
@@ -79,10 +80,10 @@ class ModelEvaluator:
 
     def __init__(self, cached_results_dir: str = "../cached_results/"):
         self.cached_results_dir = cached_results_dir
-        self.all_data = None
-        self.dataset_configs = {}
-        self.existing_results = {}  # Store existing results for incremental evaluation
-        self.cost_config = {}  # Store cost configuration
+        self.all_data: Optional[List[Dict[str, Any]]] = None
+        self.dataset_configs: Dict[str, Dict[str, Any]] = {}
+        self.existing_results: Dict[str, Any] = {}  # Store existing results for incremental evaluation
+        self.cost_config: Dict[str, Any] = {}  # Store cost configuration
 
         # Load dataset configurations
         self.load_dataset_configs()
@@ -95,8 +96,8 @@ class ModelEvaluator:
         print("Loading ground truth data...")
         try:
             # Load data directly without LiveCodeBench dependency
-            from datasets import load_dataset
-            import pandas as pd
+            from datasets import load_dataset  # type: ignore[import-untyped]
+            import pandas as pd  # type: ignore[import-untyped]
 
             # Load the router eval benchmark dataset
             router_eval_bench = load_dataset("louielu02/RouterEvalBenchmark")["full"]
@@ -238,7 +239,7 @@ class ModelEvaluator:
         self, cached_results: List[Dict]
     ) -> Dict[str, List[Dict]]:
         """Group cached results by dataset based on global_index."""
-        dataset_groups = {}
+        dataset_groups: Dict[str, List[Dict[str, Any]]] = {}
 
         for entry in cached_results:
             global_index = entry.get("global_index", "")
@@ -318,7 +319,7 @@ class ModelEvaluator:
 
         # Evaluate each dataset group
         evaluated_count = 0
-        dataset_scores = {}
+        dataset_scores: Dict[str, int] = {}
 
         # Create progress bar for datasets
         dataset_progress = tqdm(
@@ -439,6 +440,8 @@ class ModelEvaluator:
                 return None
 
         # For other datasets, find the entry with matching global_index
+        if self.all_data is None:
+            return None
         for item in self.all_data:
             if (
                 item.get("global index") == global_index
@@ -496,7 +499,7 @@ class ModelEvaluator:
         avg_cost = total_cost / cost_count if cost_count > 0 else 0.0
 
         # Group results by dataset for detailed reporting
-        dataset_results = {}
+        dataset_results: Dict[str, List[Dict[str, Any]]] = {}
         for entry in cached_results:
             if not entry.get("evaluation_result"):
                 continue

@@ -23,7 +23,7 @@ def load_jsonl_file(file_path: str) -> List[Dict[str, Any]]:
     Returns:
         List of dictionaries parsed from the JSONL file
     """
-    results = []
+    results: List[Dict[str, Any]] = []
     if not os.path.exists(file_path):
         return results
 
