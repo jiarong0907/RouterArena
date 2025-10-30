@@ -10,6 +10,7 @@ results/
 # Logs
 *.log
 logs/
+/cached_results2/
 
 # Environment files
 .venv

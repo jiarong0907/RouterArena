@@ -31,6 +31,7 @@ from eval_reasoning import get_scorers_for_dataset
 try:
     from universal_model_names import ModelNameManager
 
+    model_name_manager: Optional[ModelNameManager]
     model_name_manager = ModelNameManager()
 except ImportError:
     print("Warning: Could not import ModelNameManager. Model name validation disabled.")
@@ -79,10 +80,12 @@ class ModelEvaluator:
 
     def __init__(self, cached_results_dir: str = "../cached_results/"):
         self.cached_results_dir = cached_results_dir
-        self.all_data = None
-        self.dataset_configs = {}
-        self.existing_results = {}  # Store existing results for incremental evaluation
-        self.cost_config = {}  # Store cost configuration
+        self.all_data: Optional[List[Dict[str, Any]]] = None
+        self.dataset_configs: Dict[str, Dict[str, Any]] = {}
+        self.existing_results: Dict[
+            str, Any
+        ] = {}  # Store existing results for incremental evaluation
+        self.cost_config: Dict[str, Any] = {}  # Store cost configuration
 
         # Load dataset configurations
         self.load_dataset_configs()
@@ -238,7 +241,7 @@ class ModelEvaluator:
         self, cached_results: List[Dict]
     ) -> Dict[str, List[Dict]]:
         """Group cached results by dataset based on global_index."""
-        dataset_groups = {}
+        dataset_groups: Dict[str, List[Dict[str, Any]]] = {}
 
         for entry in cached_results:
             global_index = entry.get("global_index", "")
@@ -318,7 +321,7 @@ class ModelEvaluator:
 
         # Evaluate each dataset group
         evaluated_count = 0
-        dataset_scores = {}
+        dataset_scores: Dict[str, int] = {}
 
         # Create progress bar for datasets
         dataset_progress = tqdm(
@@ -344,14 +347,21 @@ class ModelEvaluator:
 
             # Evaluate each entry in this dataset
             for entry in dataset_entries:
-                global_index = entry.get("global_index")
+                global_index_val = entry.get("global_index")
                 generated_answer = entry.get("generated_answer", "")
 
                 try:
                     # Get ground truth for this entry
-                    ground_truth = self._get_ground_truth(global_index, dataset_name)
+                    if not isinstance(global_index_val, str):
+                        print(
+                            f"Warning: Invalid global_index {global_index_val} for dataset {dataset_name}"
+                        )
+                        continue
+                    ground_truth = self._get_ground_truth(
+                        global_index_val, dataset_name
+                    )
                     if ground_truth is None:
-                        print(f"Warning: No ground truth found for {global_index}")
+                        print(f"Warning: No ground truth found for {global_index_val}")
                         continue
 
                     # Evaluate using the appropriate scorer
@@ -391,7 +401,7 @@ class ModelEvaluator:
                         "metric": "error",
                         "inference_cost": 0.0,
                     }
-                    print(f"Error evaluating {global_index}: {e}")
+                    print(f"Error evaluating {global_index_val}: {e}")
                     continue
 
             dataset_scores[dataset_name] = len(dataset_entries)
@@ -439,6 +449,8 @@ class ModelEvaluator:
                 return None
 
         # For other datasets, find the entry with matching global_index
+        if self.all_data is None:
+            return None
         for item in self.all_data:
             if (
                 item.get("global index") == global_index
@@ -496,7 +508,7 @@ class ModelEvaluator:
         avg_cost = total_cost / cost_count if cost_count > 0 else 0.0
 
         # Group results by dataset for detailed reporting
-        dataset_results = {}
+        dataset_results: Dict[str, List[Dict[str, Any]]] = {}
         for entry in cached_results:
             if not entry.get("evaluation_result"):
                 continue
@@ -567,7 +579,10 @@ def main():
 
     args = parser.parse_args()
 
-    universal_name = model_name_manager.get_universal_name(args.model_name)
+    if model_name_manager is not None:
+        universal_name = model_name_manager.get_universal_name(args.model_name)
+    else:
+        universal_name = args.model_name
     print(f"Input model name: {args.model_name}")
     print(f"Universal model name: {universal_name}")
 

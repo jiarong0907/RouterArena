@@ -7,11 +7,13 @@
 - Internet connection
 
 ### Step 1: Install uv (if you don't have it)
+
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 ### Step 2: Install RouterArena
+
 ```bash
 cd RouterArena
 uv sync

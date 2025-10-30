@@ -12,6 +12,7 @@ import warnings
 from zoneinfo import ZoneInfo
 import datetime
 import logging
+from typing import Any, Dict, List, Optional
 from main_utils import set_logger, lock_seed
 
 # Suppress the specific langchain warning
@@ -20,7 +21,7 @@ warnings.filterwarnings(
 )
 
 
-def setup_environment():
+def setup_environment() -> tuple[str, str]:
     """Set up the environment for LLM inference."""
     current_dir = os.path.dirname(os.path.abspath(__file__))
     base_dir = os.path.abspath(os.path.join(current_dir, "../"))
@@ -39,7 +40,9 @@ def setup_environment():
     return current_dir, base_dir
 
 
-def setup_logging_and_seed(current_dir: str, model_name: str):
+def setup_logging_and_seed(
+    current_dir: str, model_name: str
+) -> tuple[logging.Logger, int]:
     """Set up logging and seed for reproducible results."""
     SEED = 42
     lock_seed(SEED)
@@ -50,7 +53,7 @@ def setup_logging_and_seed(current_dir: str, model_name: str):
     return logger, SEED
 
 
-def get_timezone_info():
+def get_timezone_info() -> tuple[ZoneInfo, datetime.datetime]:
     """Get timezone information for logging."""
     ct_timezone = ZoneInfo("America/Chicago")
     start_time = datetime.datetime.now(ct_timezone)
@@ -58,7 +61,7 @@ def get_timezone_info():
 
 
 def log_pipeline_start(
-    logger,
+    logger: logging.Logger,
     pipeline_type: str,
     model_name: str,
     start_time: datetime.datetime,
@@ -74,12 +77,12 @@ def log_pipeline_start(
 
 
 def log_pipeline_completion(
-    logger,
+    logger: logging.Logger,
     pipeline_type: str,
     model_name: str,
     start_time: datetime.datetime,
     end_time: datetime.datetime,
-    results: list = None,
+    results: Optional[List[Dict[str, Any]]] = None,
 ):
     """Log pipeline completion information."""
     duration_minutes = (end_time - start_time).total_seconds() / 60
@@ -115,7 +118,7 @@ def create_result_entry(
     question: str,
     model_name: str,
     inference_result: dict,
-    additional_fields: dict = None,
+    additional_fields: Optional[Dict[str, Any]] = None,
 ) -> dict:
     """Create a standardized result entry."""
     result_entry = {

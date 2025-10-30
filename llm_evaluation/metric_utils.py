@@ -5,67 +5,66 @@ import re
 import regex
 from math import isclose
 
+from typing import Any, Optional, List
+
 from latex2sympy2 import latex2sympy
 from sympy import N, simplify
 from sympy.parsing.latex import parse_latex
 from sympy.parsing.sympy_parser import parse_expr
 
 
-def choice_answer_clean(pred: str):
+def choice_answer_clean(pred: str) -> str:
     """Helper function for standardizing multiple choice answers"""
-    pred = pred.strip("\n").rstrip(".").rstrip("/").strip(" ").lstrip(":")
-    # Clean the answer based on the dataset
-    tmp = re.findall(r"\b(A|B|C|D|E)\b", pred.upper())
-    if tmp:
-        pred = tmp
+    cleaned = pred.strip("\n").rstrip(".").rstrip("/").strip(" ").lstrip(":")
+    matches: List[str] = re.findall(r"\b(A|B|C|D|E)\b", cleaned.upper())
+    if matches:
+        result = matches[-1]
     else:
-        pred = [pred.strip().strip(".")]
-    pred = pred[-1]
-    # Remove the period at the end, again!
-    pred = pred.rstrip(".").rstrip("/")
-    return pred
+        result = cleaned.strip().strip(".")
+    result = result.rstrip(".").rstrip("/")
+    return result
 
 
-def parse_digits(num):
-    num = regex.sub(",", "", str(num))
+def parse_digits(num: Any) -> Optional[float]:
+    normalized = regex.sub(",", "", str(num))
     try:
-        return float(num)
+        return float(normalized)
     except Exception:
-        if num.endswith("%"):
-            num = num[:-1]
-            if num.endswith("\\"):
-                num = num[:-1]
+        if normalized.endswith("%"):
+            normalized = normalized[:-1]
+            if normalized.endswith("\\"):
+                normalized = normalized[:-1]
             try:
-                return float(num) / 100
+                return float(normalized) / 100
             except Exception:
                 pass
     return None
 
 
-def is_digit(num):
+def is_digit(num: Any) -> bool:
     # paired with parse_digits
     return parse_digits(num) is not None
 
 
-def numeric_equal(prediction: float, reference: float):
+def numeric_equal(prediction: float, reference: float) -> bool:
     return isclose(reference, prediction, rel_tol=1e-4)
 
 
-def str_to_pmatrix(input_str):
-    input_str = input_str.strip()
-    matrix_str = re.findall(r"\{.*,.*\}", input_str)
-    pmatrix_list = []
+def str_to_pmatrix(input_str: str) -> str:
+    stripped = input_str.strip()
+    matrix_str = re.findall(r"\{.*,.*\}", stripped)
+    pmatrix_list: List[str] = []
 
     for m in matrix_str:
-        m = m.strip("{}")
-        pmatrix = r"\begin{pmatrix}" + m.replace(",", "\\") + r"\end{pmatrix}"
+        content = m.strip("{}")
+        pmatrix = r"\begin{pmatrix}" + content.replace(",", "\\") + r"\end{pmatrix}"
         pmatrix_list.append(pmatrix)
 
     return ", ".join(pmatrix_list)
 
 
-def symbolic_equal(a, b):
-    def _parse(s):
+def symbolic_equal(a: Any, b: Any) -> bool:
+    def _parse(s: Any) -> Any:
         for f in [parse_latex, parse_expr, latex2sympy]:
             try:
                 return f(s.replace("\\\\", "\\"))

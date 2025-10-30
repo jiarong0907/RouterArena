@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright contributors to the RouterArena project
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Dict, Tuple
+from typing import Dict, Tuple, DefaultDict, Any
 import json
 import os
 from collections import defaultdict
@@ -31,10 +31,12 @@ def build_complete_evaluation_dictionary() -> Dict[str, Dict[str, Tuple[float, f
     """
     print("Building complete evaluation dictionary...")
 
-    results_dir = "./cached_results"
-    # cost_data = load_cost_data()
+    results_dir = "./cached_results2"
+    cost_data = load_cost_data()
 
-    evaluation_dict = defaultdict(dict)
+    evaluation_dict: DefaultDict[str, Dict[Any, Tuple[float, float]]] = defaultdict(
+        dict
+    )
 
     # Get all evaluation result files
     if not os.path.exists(results_dir):
@@ -45,6 +47,7 @@ def build_complete_evaluation_dictionary() -> Dict[str, Dict[str, Tuple[float, f
 
     for file_name in result_files:
         file_path = os.path.join(results_dir, file_name)
+        print(f"Processing file: {file_path}")
 
         # Load JSONL file (JSON Lines format)
         results = []
@@ -75,6 +78,33 @@ def build_complete_evaluation_dictionary() -> Dict[str, Dict[str, Tuple[float, f
                 # Get cost for this inference
                 inference_cost = result["evaluation_result"]["inference_cost"]
 
+                if inference_cost == 0.0:
+                    # Handle different token naming conventions
+                    # Token info is in result["token_usage"], not in evaluation_result
+                    token_usage = result["token_usage"]
+                    if token_usage is None:
+                        continue
+                    input_tokens = token_usage.get(
+                        "input_tokens", token_usage.get("prompt_tokens", 0)
+                    )
+                    output_tokens = token_usage.get(
+                        "output_tokens", token_usage.get("completion_tokens", 0)
+                    )
+
+                    if input_tokens and output_tokens:
+                        input_cost_per_million = cost_data[model_name][
+                            "input_token_price_per_million"
+                        ]
+                        output_cost_per_million = cost_data[model_name][
+                            "output_token_price_per_million"
+                        ]
+
+                        inference_cost = (
+                            input_tokens / 1_000_000
+                        ) * input_cost_per_million + (
+                            output_tokens / 1_000_000
+                        ) * output_cost_per_million
+
                 # Get accuracy (score)
                 accuracy = result["evaluation_result"]["score"]
 
@@ -87,16 +117,16 @@ def build_complete_evaluation_dictionary() -> Dict[str, Dict[str, Tuple[float, f
             evaluation_dict[model_name][global_index] = (accuracy, inference_cost)
 
         # print(f"  Added {len(extracted_results)} results for {model_name}")
-        print(
-            f"  Added {len(extracted_results)} results for {model_name} (unvalidated: {unvalidated_count})"
-        )
+        # print(
+        #     f"  Added {len(extracted_results)} results for {model_name} (unvalidated: {unvalidated_count})"
+        # )
 
     total_pairs = sum(len(queries) for queries in evaluation_dict.values())
     print(
         f"\nCompleted building evaluation dictionary with {total_pairs} total (model, global_index) pairs across {len(evaluation_dict)} models"
     )
 
-    with open("./llm_evaluation_dict.json", "w") as f:
+    with open("./router_inference/llm_evaluation_dict.json", "w") as f:
         json.dump(dict(evaluation_dict), f)
 
     return dict(evaluation_dict)
@@ -106,7 +136,7 @@ def load_predictions(router_name: str, config: Dict):
     print(f"Loading predictions for {router_name}.......")
     model_name_manager = ModelNameManager()
 
-    predictions_path = f"./router_inference/predictions/{router_name}.json"
+    predictions_path = f"./router_inference/predictions2/{router_name}.json"
     if not os.path.exists(predictions_path):
         print(f"Warning: Predictions file {predictions_path} not found")
         return {}
@@ -187,7 +217,20 @@ def main():
     print(f"Created mapping for {len(global_index_to_bloom_level)} entries")
     print(f"Sample mapping: {dict(list(global_index_to_bloom_level.items())[:5])}")
 
-    router_names = ["carrot"]
+    router_names = [
+        "carrot",
+        "graphrouter",
+        "notdiamond",
+        "gpt5",
+        "azure",
+        "vllm",
+        "mirt_bert",
+        "nirt_bert",
+        "routellm",
+        "routerbench_knn",
+        "routerbench_mlp",
+        "RouterDC",
+    ]
 
     all_router_data = {}
 
