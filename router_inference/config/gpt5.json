@@ -1,9 +1,0 @@
-{
-    "pipeline_params": {
-        "router_name": "gpt5",
-        "models": {
-            "gpt-5": 14.114
-        }
-
-    }
-}

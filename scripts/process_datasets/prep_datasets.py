@@ -14,7 +14,10 @@ from typing import Dict, Any, List
 
 save_dir = "./dataset/"
 
-router_benchmark = load_dataset("louielu02/RouterArena", split="full")
+router_benchmark = load_dataset("RouteWorks/RouterArena", split="sub_10")
+router_benchmark.save_to_disk(os.path.join(save_dir, "routerarena_10"))
+
+router_benchmark = load_dataset("RouteWorks/RouterArena", split="full")
 router_benchmark.save_to_disk(os.path.join(save_dir, "routerarena"))
 
 
@@ -65,7 +68,7 @@ def build_formatted_prompts_from_router_eval_benchmark(
     split_name: str,
 ) -> List[Dict[str, Any]]:
     # Load benchmark split
-    ds = load_dataset("louielu02/RouterEvalBenchmark")[split_name]
+    ds = load_dataset("RouteWorks/RouterArena")[split_name]
 
     # Load LiveCodeBench dataset saved to disk (if available)
     lcd_dataset_list: List[Dict[str, Any]] = []
@@ -161,7 +164,15 @@ def build_formatted_prompts_from_router_eval_benchmark(
             or row.get("global_index")
             or row.get("global index")
         )
-        dataset_name_full = row.get("Dataset name") or ""
+        # Special handling: if Global Index starts with "Ethics", include up to next "_"
+        if not row.get("Dataset name"):
+            global_index_parts = row["Global Index"].split("_")
+            if global_index_parts[0] == "Ethics" and len(global_index_parts) >= 2:
+                dataset_name_full = f"{global_index_parts[0]}_{global_index_parts[1]}"
+            else:
+                dataset_name_full = global_index_parts[0]
+        else:
+            dataset_name_full = row.get("Dataset name")
 
         if "Ethics" in dataset_name_full:
             base_dataset_name = dataset_name_full
@@ -254,7 +265,7 @@ def build_formatted_prompts_from_router_eval_benchmark(
 
 
 def write_pipeline_datasets() -> None:
-    out_dir = "./llm_inference/datasets"
+    out_dir = "./dataset"
     os.makedirs(out_dir, exist_ok=True)
 
     # full split

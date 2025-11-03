@@ -1,9 +1,0 @@
-{
-    "pipeline_params": {
-        "router_name": "routellm",
-        "models": {
-            "gpt-4-1106-preview": 4.998,
-            "mixtral-8x7b-instruct-v0.1": 0.2262
-        }
-    }
-}

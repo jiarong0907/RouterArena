@@ -98,11 +98,11 @@ class ModelEvaluator:
         print("Loading ground truth data...")
         try:
             # Load data directly without LiveCodeBench dependency
-            from datasets import load_dataset  # type: ignore[import-not-found,import-untyped]
+            from datasets import load_from_disk  # type: ignore[import-untyped]
             import pandas as pd  # type: ignore[import-untyped]
 
             # Load the router eval benchmark dataset
-            router_eval_bench = load_dataset("louielu02/RouterEvalBenchmark")["full"]
+            router_eval_bench = load_from_disk("./dataset/routerarena")
             router_eval_bench_df = pd.DataFrame(router_eval_bench)
 
             # Convert to the expected format
@@ -143,11 +143,32 @@ class ModelEvaluator:
 
     def load_cost_config(self):
         """Load cost configuration from model_cost/cost.json"""
-        cost_file = "/home/jy101/yifan/RouterArena/model_cost/cost.json"
+        # Try multiple possible paths for cost file
+        possible_paths = [
+            "./model_cost/cost.json",
+            "../model_cost/cost.json",
+            "model_cost/cost.json",
+        ]
+
+        cost_file = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                cost_file = path
+                break
+
+        if not cost_file:
+            print(
+                f"Warning: Could not find cost configuration file. Tried: {possible_paths}"
+            )
+            self.cost_config = {}
+            return
+
         try:
             with open(cost_file, "r") as f:
                 self.cost_config = json.load(f)
-            print(f"Loaded cost configuration for {len(self.cost_config)} models")
+            print(
+                f"Loaded cost configuration for {len(self.cost_config)} models from {cost_file}"
+            )
         except Exception as e:
             print(f"Warning: Could not load cost configuration from {cost_file}: {e}")
             self.cost_config = {}

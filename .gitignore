@@ -7,6 +7,9 @@ __pycache__/
 outputs/
 results/
 
+# datasets
+dataset/
+
 # Logs
 *.log
 logs/
