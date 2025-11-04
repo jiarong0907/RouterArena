@@ -31,13 +31,13 @@ from universal_model_names import ModelNameManager
 
 # Expected dataset sizes
 EXPECTED_SIZES = {
-    "10": 809,
+    "sub_10": 809,
     "full": 8400,
 }
 
 # Dataset file paths
 DATASET_PATHS = {
-    "10": "./dataset/router_data_10.json",
+    "sub_10": "./dataset/router_data_10.json",
     "full": "./dataset/router_data.json",
 }
 
@@ -286,8 +286,8 @@ def main():
     parser.add_argument(
         "split",
         type=str,
-        choices=["10", "full"],
-        help="Dataset split: '10' for 10%% split (809 entries) or 'full' (8400 entries)",
+        choices=["sub_10", "full"],
+        help="Dataset split: 'sub_10' for 10%% split (809 entries) or 'full' (8400 entries)",
     )
 
     args = parser.parse_args()

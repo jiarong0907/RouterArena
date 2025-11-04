@@ -25,7 +25,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
 
 # Dataset file paths
 DATASET_PATHS = {
-    "10": "./dataset/router_data_10.json",
+    "sub_10": "./dataset/router_data_10.json",
     "full": "./dataset/router_data.json",
 }
 
@@ -155,8 +155,8 @@ def main():
     parser.add_argument(
         "split",
         type=str,
-        choices=["10", "full"],
-        help="Dataset split: '10' for 10%% split or 'full'",
+        choices=["sub_10", "full"],
+        help="Dataset split: 'sub_10' for 10%% split or 'full'",
     )
 
     args = parser.parse_args()
