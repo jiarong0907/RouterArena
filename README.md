@@ -50,8 +50,6 @@ RouterArena addresses this gap by providing a uniform, multi-dimensional benchma
 
 🟨 Academic  🟦 Commercial 
 
-
-
 <!-- <p align="center">
   <img src="images/leaderboard.png" alt="Make GPU Sharing Flexible and Easy" width="500" />
 </p> -->
