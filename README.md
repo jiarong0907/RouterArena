@@ -33,15 +33,15 @@ RouterArena addresses this gap by providing a uniform, multi-dimensional benchma
 
 <h3 align="left">RouterArena Leaderboard</h3>
 
-| Rank | Router | Affiliation | Arena | Opt.Select | Opt.Cost | Opt.Acc | Latency | Robustness |
+| Rank | Router | Affiliation | Arena | Opt.Sel | Opt.Cost | Opt.Acc | Latency | Robustness |
 |------|---------|--------------|--------|------------|-----------|----------|----------|-------------|
 | 🥇 | MIRT-BERT | 🟨 USTC | 66.89 | 3.44 | 19.62 | 78.18 | 27.03 | 94.50 |
-| 🥈 | Azure | 🟦 Microsoft | 66.66 | 22.52 | 46.32 | 81.96 | — | — |
+| 🥈 | Azure | 🟦&nbsp;Microsoft | 66.66 | 22.52 | 46.32 | 81.96 | — | — |
 | 🥉 | NIRT-BERT | 🟨 USTC | 66.12 | 3.83 | 14.04 | 77.88 | 10.42 | 44.50 |
 | 4 | GPT-5 | 🟦 OpenAI | 64.32 | — | — | — | — | — |
 | 5 | vLLM-SR | 🟦 vLLM | 64.32 | 4.79 | 12.54 | 79.33 | 0.19 | 100.00 |
 | 6 | CARROT | 🟨 UMich | 63.87 | 2.68 | 6.77 | 78.63 | 1.50 | 93.60 |
-| 7 | NotDiamond | 🟦 NotDiamond | 63.00 | 1.55 | 2.14 | 76.81 | — | — |
+| 7 | NotDiamond | 🟦&nbsp;NotDiamond | 63.00 | 1.55 | 2.14 | 76.81 | — | — |
 | 8 | MLP | 🟩 Generic | 57.56 | 13.39 | 24.45 | 83.32 | 90.91 | 96.90 |
 | 9 | GraphRouter | 🟨 UIUC | 57.22 | 4.73 | 38.33 | 74.25 | 2.70 | 97.50 |
 | 10 | KNN | 🟩 Generic | 55.48 | 13.09 | 25.49 | 78.77 | 1.33 | 51.30 |
