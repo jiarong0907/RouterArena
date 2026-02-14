@@ -15,7 +15,7 @@ jobs:
         github.event.comment.author_association == 'COLLABORATOR' ||
         github.event.comment.user.login == github.event.issue.user.login
       )
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       checks: write
       contents: read
@@ -178,6 +178,10 @@ jobs:
           set -euo pipefail
           echo "Detected router submission: ${{ steps.detect.outputs.router }}"
           echo "Detected split: ${{ steps.detect.outputs.split }}"
+
+      - name: Set up uv
+        if: ${{ steps.detect.outputs.router != '' }}
+        uses: astral-sh/setup-uv@v5
 
       - name: Prepare dataset
         if: ${{ steps.detect.outputs.router != '' }}
