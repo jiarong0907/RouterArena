@@ -15,7 +15,7 @@ jobs:
         github.event.comment.author_association == 'COLLABORATOR' ||
         github.event.comment.user.login == github.event.issue.user.login
       )
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     permissions:
       checks: write
       contents: read
@@ -206,6 +206,15 @@ jobs:
           cp "pr/router_inference/predictions/${ROUTER_NAME}-robustness.json" \
              "base/router_inference/predictions/${ROUTER_NAME}-robustness.json"
           echo "Copied prediction file from PR to base workspace"
+
+      - name: Enable Swap Space
+        run: |
+          # Create a new 10GB swap file (using a unique name to avoid conflicts)
+          sudo fallocate -l 10G /swapfile10g
+          sudo chmod 600 /swapfile10g
+          sudo mkswap /swapfile10g
+          sudo swapon /swapfile10g
+          sudo swapon --show
 
       - name: Evaluate submission
         if: ${{ steps.detect.outputs.router != '' }}
