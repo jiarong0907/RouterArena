@@ -6,6 +6,10 @@ on:
 
 jobs:
   evaluate-router:
+    concurrency:
+      group: evaluate-router-pr-${{ github.event.issue.number }}
+      cancel-in-progress: false
+    timeout-minutes: 120
     if: >-
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, '/evaluate') &&
@@ -183,6 +187,20 @@ jobs:
           echo "Detected router submission: ${{ steps.detect.outputs.router }}"
           echo "Detected split: ${{ steps.detect.outputs.split }}"
 
+      - name: Set up Python
+        if: ${{ steps.detect.outputs.router != '' }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install uv
+        if: ${{ steps.detect.outputs.router != '' }}
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install uv
+          uv --version
+
       - name: Prepare dataset
         if: ${{ steps.detect.outputs.router != '' }}
         working-directory: base
@@ -191,7 +209,7 @@ jobs:
           # Prepare dataset from public repository
           # Uses base repo's script (safe - not from PR)
           echo "Preparing dataset..."
-          mkdir -p "${{ github.workspace }}/dataset"
+          mkdir -p dataset
           uv run python scripts/process_datasets/prep_datasets.py
 
       - name: Copy PR prediction file to base workspace
@@ -221,7 +239,7 @@ jobs:
         id: evaluate
         working-directory: base
         env:
-          ROUTERARENA_DATASET_DIR: ${{ github.workspace }}/dataset
+          ROUTERARENA_DATASET_DIR: ${{ github.workspace }}/base/dataset
         run: |
           set -euo pipefail; trap 'cat evaluation_output.txt' EXIT
           # Uses base repo's evaluation script (safe - not from PR)
