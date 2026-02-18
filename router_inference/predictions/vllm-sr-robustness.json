@@ -2,7 +2,7 @@
   {
     "global index": "AIME_112",
     "prompt": "Deliver a thorough resolution of the ensuing arithmetic puzzle in a sequential manner.\n\nScenario: Absent\n\nInquiry: With an inexhaustible stockpile of coins valued at 1-cent, 10-cents, and 25-cents, Silas is on a quest to assemble a coin collection summing to $ N $ cents, where $ N $ is a positive integer figure. He employs what's known as the **greedy method**, opting each time for the highest denomination that doesn't push his collection's sum beyond $ N $. Illustratively, for 42 cents, Silas opts for a 25-cent coin, followed by a 10-cent, and then seven 1-cent coins. However, this assortment of nine coins surpasses the required count to reach 42 cents; in fact, selecting four 10-cent coins and two 1-cent coins sums up the same with only six coins.\n\nTypically, the greedy method prevails for a specific $ N $ if no alternate assemblage of 1-cent, 10-cent, and 25-cent coins sums to $ N $ cents using a smaller number of coins than the greedy method's set. Ascertain the quantity of values for $ N $ spanning from 1 to 1000 inclusive where the greedy method is successful.\n\nSubmit your conclusive response in the format \\boxed{{}}, with the precise mathematical expression or numeral encased within the braces. For instance: \\boxed{{42}}. Ensure your elucidation is explicit, succinct, and confined to three sentences.",
-    "prediction": "gemini-2.0-flash-001",
+    "prediction": "gpt-4o-mini",
     "generated_result": null,
     "cost": null,
     "accuracy": null,
