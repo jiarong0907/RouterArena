@@ -468,7 +468,9 @@ def main(argv: Optional[list[str]] = None) -> int:
             "--check-generated-result",
         ]
         print("▶ Validating prediction/config files...", flush=True)
-        validation_result = run_command(validation_cmd, cwd=worktree_path, capture=False)
+        validation_result = run_command(
+            validation_cmd, cwd=worktree_path, capture=False
+        )
         print("✔ Validated prediction files")
 
         evaluation_cmd = [
