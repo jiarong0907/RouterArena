@@ -455,6 +455,7 @@ def main(argv: Optional[list[str]] = None) -> int:
 
         if not args.skip_sync:
             run_command(["uv", "sync", "--locked"], cwd=worktree_path, capture=True)
+            print("✔ Synced dependencies")
 
         validation_cmd = [
             "uv",
@@ -466,6 +467,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             "--check-generated-result",
         ]
         validation_result = run_command(validation_cmd, cwd=worktree_path, capture=True)
+        print("✔ Validated prediction files")
 
         evaluation_cmd = [
             "uv",
@@ -482,6 +484,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             evaluation_result = run_command(
                 evaluation_cmd, cwd=worktree_path, capture=True
             )
+            print("✔ Evaluated predictions")
             evaluation_logs = (evaluation_result.stdout or "") + (
                 evaluation_result.stderr or ""
             )
