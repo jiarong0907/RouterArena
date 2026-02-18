@@ -241,15 +241,14 @@ jobs:
         env:
           ROUTERARENA_DATASET_DIR: ${{ github.workspace }}/base/dataset
         run: |
-          set -euo pipefail; trap 'cat evaluation_output.txt' EXIT
+          set -euo pipefail
           # Uses base repo's evaluation script (safe - not from PR)
           BASE_SHA="${{ steps.pr.outputs.base_sha }}"
           uv run python automation/process_pr_submission.py \
             --pr "${{ steps.pr.outputs.number }}" \
             --router "${{ steps.detect.outputs.router }}" \
             --split "${{ steps.detect.outputs.split }}" \
-            --base-ref "$BASE_SHA" > evaluation_output.txt 2>&1
-          cat evaluation_output.txt
+            --base-ref "$BASE_SHA" 2>&1 | tee evaluation_output.txt
 
       - name: Post evaluation results as PR comment
         if: ${{ steps.detect.outputs.router != '' && steps.evaluate.outcome == 'success' }}
